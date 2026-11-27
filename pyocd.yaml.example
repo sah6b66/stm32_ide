@@ -1,0 +1,12 @@
+# pyOCD 配置模板 —— 复制为工程根目录下的 pyocd.yaml 后按实际情况修改
+# 键名与 pyOCD 0.46 官方文档一致（https://pyocd.io/docs/configuration）
+# 注意：顶层键只能是会话选项名或 probes；选择探针用命令行 -u 参数或下面的 probes 映射
+
+# 按探针 Unique ID 绑定选项（ID 用 `pyocd list` 查看，多探针时防止随机选择）
+probes:
+  0000000000000000000000000000000:  # 替换为你的探针完整 Unique ID
+    target_override: STM32F103C8    # 目标芯片型号
+
+# 以下为全局选项
+frequency: 4000000      # SWD 时钟频率（默认 1MHz）
+auto_unlock: true       # 连接时自动解除读保护

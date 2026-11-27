@@ -1,0 +1,18 @@
+{
+    "cmake.cmakePath": "E:/stm32_ide/tools/cmake/bin/cmake.exe",
+    "cmake.generator": "Ninja",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/cmake/toolchain-arm-none-eabi.cmake",
+        "CMAKE_BUILD_TYPE": "Debug"
+    },
+    "C_Cpp.default.compilerPath": "E:/stm32_ide/tools/arm-gcc/bin/arm-none-eabi-gcc.exe",
+    "C_Cpp.default.intelliSenseMode": "gcc-arm",
+    "files.associations": {
+        "stdint.h": "c"
+    },
+    "search.exclude": {
+        "**/tools": true,
+        "**/build": true
+    }
+}
