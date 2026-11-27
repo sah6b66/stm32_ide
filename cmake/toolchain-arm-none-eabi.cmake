@@ -3,7 +3,8 @@
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
-set(ARM_TOOLCHAIN_DIR "E:/stm32_ide/tools/arm-gcc/bin")
+# 工具链随本仓库携带（由 bin/setup.sh 安装到 <仓库根>/tools/arm-gcc），路径相对本文件，可整体搬迁
+get_filename_component(ARM_TOOLCHAIN_DIR "${CMAKE_CURRENT_LIST_DIR}/../tools/arm-gcc/bin" ABSOLUTE)
 set(TOOLCHAIN_PREFIX ${ARM_TOOLCHAIN_DIR}/arm-none-eabi)
 
 set(CMAKE_C_COMPILER   ${TOOLCHAIN_PREFIX}-gcc.exe)

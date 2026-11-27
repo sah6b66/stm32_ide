@@ -11,22 +11,26 @@
 | ARM GCC (arm-none-eabi) | 14.2.1 (xPack 打包，含 GDB 15.2) | `tools\arm-gcc\bin\` | SHA256 通过 |
 | CMake | 3.31.8 | `tools\cmake\bin\` | zip 结构完整 |
 | Ninja | 1.13.2 | `tools\ninja\ninja.exe` | 运行验证 |
-| pyOCD | 0.46.1 | `E:\Python312\Scripts\pyocd.exe` | pip（清华镜像） |
+| pyOCD | 最新（独立 venv） | `tools\pyocd-venv\Scripts\pyocd.exe` | pip（清华镜像） |
 | Zadig | 2.9 | `tools\downloads\zadig\zadig-2.9.exe` | PE32，5.1MB |
-| Python | 3.12.10（系统已有，未新装） | `E:\Python312\` | — |
+| Python | 3.12（系统已有，未新装） | 仅用于建 pyOCD venv | — |
 
 Git 与 VS Code 使用系统已有安装，未重复安装。
+
+以上组件由 **`bash bin/setup.sh`** 一键安装（幂等；下载→解压→pyOCD venv→用户 PATH→验证）。
 
 ## 目录结构
 
 ```text
-e:\stm32_ide\
+D:\ELE\tools\stm32_ide\
+├── bin/                      # setup.sh（一键安装）、add-user-path.ps1
 ├── tools/                    # 本地工具链（已 .gitignore，不入库）
 │   ├── arm-gcc/              # arm-none-eabi-gcc / gdb / objcopy ...
 │   ├── cmake/                # cmake.exe
 │   ├── ninja/                # ninja.exe
-│   ├── env.bat               # 临时启用工具链的会话脚本（未改 PATH 时备用）
-│   └── downloads/            # 原始安装包留存
+│   ├── env.bat / env.sh      # 临时启用工具链的会话脚本（setup.sh 生成）
+│   ├── pyocd-venv/           # pyOCD 独立虚拟环境
+│   └── downloads/            # 原始安装包留存（每包独立子目录）
 ├── cmake/
 │   └── toolchain-arm-none-eabi.cmake   # 交叉编译工具链文件
 ├── .vscode/
@@ -53,7 +57,7 @@ pyocd --version
 
 ```bat
 cd 某个工程目录
-cmake -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=E:/stm32_ide/cmake/toolchain-arm-none-eabi.cmake
+cmake -G Ninja -B build -DCMAKE_TOOLCHAIN_FILE=D:/ELE/tools/stm32_ide/cmake/toolchain-arm-none-eabi.cmake
 cmake --build build
 ```
 
@@ -104,9 +108,10 @@ CubeMX 用于图形化配置外设并直接生成 CMake 工程，但官方下载
 
 本机直连 GitHub Release 资源会被重置，以下源已验证可用：
 
-- PyPI：清华镜像 `https://pypi.tuna.tsinghua.edu.cn/simple`
-- GitHub Release 资源：`https://gh-proxy.com/https://github.com/...` 前缀加速
-- cmake.org 直连可用但慢
+- PyPI：阿里云镜像 `https://mirrors.aliyun.com/pypi/simple/`（清华镜像对本机返回 403 勿用）
+- GitHub Release 资源：`https://gh-proxy.com/https://github.com/...` 前缀加速；
+  大文件用 `bin/pfetch.sh` 并行分段下载（单连接仅 30-100KB/s 时提速 6 倍以上，支持断点续传）
+- xPack ARM GCC 正确资产名：`xpack-arm-none-eabi-gcc-<版本>-win32-x64.zip`（无额外 -zip 后缀），配套 `.sha` 校验
 
 ## Windows 避坑清单
 
